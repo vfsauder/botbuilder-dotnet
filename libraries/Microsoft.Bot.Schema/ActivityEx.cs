@@ -29,6 +29,7 @@ namespace Microsoft.Bot.Schema
         ITypingActivity,
         IEndOfConversationActivity,
         IEventActivity,
+        ITraceActivity,
         IInvokeActivity
     {
         /// <summary>
@@ -121,6 +122,25 @@ namespace Microsoft.Bot.Schema
         /// Create an instance of the Activity class with an IEventActivity masking
         /// </summary>
         public static IEventActivity CreateEventActivity() { return new Activity(ActivityTypes.Event); }
+
+        /// <summary>
+        /// Create an instance of the Activity class with an ITraceActivity masking
+        /// </summary>
+        public ITraceActivity CreateTraceActivity(string name = null, object value = null)
+        {
+            var trace = new Activity
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Type = ActivityTypes.Trace,
+                Timestamp = DateTime.UtcNow,
+                ServiceUrl = this.ServiceUrl,
+                ChannelId = this.ChannelId,
+                Conversation = new ConversationAccount(isGroup: this.Conversation.IsGroup, id: this.Conversation.Id, name: this.Conversation.Name),
+                Name = name,
+                Value = value
+            };
+            return trace;
+        }
 
         /// <summary>
         /// Create an instance of the Activity class with IInvokeActivity masking

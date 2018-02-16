@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Adapters;
+using Microsoft.Bot.Builder.Middleware;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder
@@ -31,6 +32,7 @@ namespace Microsoft.Bot.Builder
             // through the Middleware Pipeline
             _adapter.OnReceive = this.RunPipeline;
 
+            this.Use(new Middleware.LoggerMiddleware(this));
             this.Use(new Middleware.BindOutoingResponsesMiddlware()); 
             this.Use(new Middleware.SendToAdapterMiddleware(this));
             this.Use(new Middleware.TemplateManager());
@@ -43,6 +45,8 @@ namespace Microsoft.Bot.Builder
         }
 
         public ActivityAdapterBase Adapter { get => _adapter; }
+        
+        public ILogger Logger { get; set; }
 
         private async Task RunPipeline(IBotContext context, Func<IBotContext, Task> proactiveCallback = null)
         {

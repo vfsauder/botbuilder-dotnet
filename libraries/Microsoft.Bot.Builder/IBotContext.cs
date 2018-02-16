@@ -72,7 +72,7 @@ namespace Microsoft.Bot.Builder
         /// <param name="data">data object to bind to</param>
         /// <returns></returns>
         BotContext ReplyWith(string templateId, object data=null);
-
+        
         TemplateManager TemplateManager { get; set; }
     }   
 
@@ -86,6 +86,49 @@ namespace Microsoft.Bot.Builder
         public static BotContext ToBotContext(this IBotContext context)
         {
             return (BotContext)context; 
+        }
+
+        public static void Trace(this IBotContext context, string traceMessage, object content = null)
+        {
+            try
+            {
+                var task = GetTraceTask(context, traceMessage, content);
+                if (task != null)
+                {
+                    Task.Run(() => task.ConfigureAwait(false));
+                }
+            }
+            catch(Exception)
+            {
+                // Do not allow trace exceptions to surface
+            }
+        }
+
+        public static async Task TraceAsync(this IBotContext context, string traceMessage, object content = null)
+        {
+            try
+            {
+                var task = GetTraceTask(context, traceMessage, content);
+                if (task != null)
+                {
+                    await task.ConfigureAwait(false);
+                }
+            }
+            catch (Exception)
+            {
+                // Do not allow trace exceptions to surface
+            }
+        }
+
+        private static Task GetTraceTask(this IBotContext context, string traceMessage, object content = null)
+        {
+            if (context.Bot.Logger != null)
+            {
+                var trace = ((Activity)context.Request).CreateTraceActivity(traceMessage, content);
+                trace.RelatesTo = context.ConversationReference;
+                return context.Bot.Logger.TraceAsync(trace);
+            }
+            return null;
         }
     }
 }

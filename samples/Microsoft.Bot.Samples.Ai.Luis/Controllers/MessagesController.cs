@@ -10,6 +10,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Ai;
 using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Middleware;
+using Microsoft.Bot.Builder.Storage;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
 
@@ -28,7 +29,9 @@ namespace Microsoft.Bot.Samples.Ai.Luis
         /// </summary>        
         public MessagesController(IConfiguration configuration)
         {
-            var bot = new Builder.Bot(new BotFrameworkAdapter(configuration))
+            IStorage storage = new FileStorage(System.IO.Path.GetTempPath());
+
+            var bot = new Builder.Bot(new BotFrameworkAdapter(configuration)) { Logger = new StorageLogger(storage) }
                 .Use(new LuisRecognizerMiddleware("xxxxxx", "xxxxxx"));
             
                 // LUIS with correct baseUri format example

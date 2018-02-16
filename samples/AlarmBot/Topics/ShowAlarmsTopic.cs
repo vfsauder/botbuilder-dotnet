@@ -34,6 +34,7 @@ namespace AlarmBot.Topics
 
         public static Task ShowAlarms(IBotContext context)
         {
+            context.Trace("ShowAlarms");
             List<Alarm> alarms = GetAlarms(context);
             context.ReplyWith(ShowAlarmsTopicView.SHOWALARMS, alarms);
             return Task.CompletedTask;

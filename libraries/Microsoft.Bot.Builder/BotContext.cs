@@ -52,7 +52,7 @@ namespace Microsoft.Bot.Builder
         public IList<IActivity> Responses { get => _responses; set => this._responses = value; }
 
         public IStorage Storage { get; set; }
-
+        
         public Intent TopIntent { get; set; }
 
         public TemplateManager TemplateManager { get; set; }

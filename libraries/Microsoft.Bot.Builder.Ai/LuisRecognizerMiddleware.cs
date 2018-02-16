@@ -43,12 +43,12 @@ namespace Microsoft.Bot.Builder.Ai
         {
             this.OnRecognize(async (context) =>
             {
-                Middleware.Intent i = await RecognizeAndMap(context.Request.AsMessageActivity()?.Text);
+                Middleware.Intent i = await RecognizeAndMap(context, context.Request.AsMessageActivity()?.Text);
                 return new List<Middleware.Intent>() { i };
             });
         }
         
-        private async Task<Middleware.Intent> RecognizeAndMap(string utterance)
+        private async Task<Middleware.Intent> RecognizeAndMap(IBotContext context, string utterance)
         {
             Middleware.Intent intent = new Middleware.Intent();
 
@@ -61,25 +61,41 @@ namespace Microsoft.Bot.Builder.Ai
             }
             else
             {
-                LuisResult result = await _luisClient.Predict(utterance);
+                try
+                {
+                    LuisResult result = await _luisClient.Predict(utterance);
 
-                if (result.TopScoringIntent == null)
-                {
-                    intent.Name = string.Empty;
-                    intent.Score = 0.0;
-                }
-                else
-                {
-                    intent.Name = result.TopScoringIntent.Name;
-                    intent.Score = result.TopScoringIntent.Score;
-                }
+                    context.Trace("LUIS Result", new SerializableLuisResult() {
+                        CompositeEntities = result.CompositeEntities,
+                        DialogResponse = result.DialogResponse,
+                        Entities = result.Entities,
+                        Intents = result.Intents,
+                        OriginalQuery = result.OriginalQuery,
+                        TopScoringIntent = result.TopScoringIntent
+                    });
 
-                foreach (var luisEntityList in result.Entities.Values)
-                {
-                    foreach (var luisEntity in luisEntityList)
+                    if (result.TopScoringIntent == null)
                     {
-                        intent.Entities.Add(new LuisEntity(luisEntity));
+                        intent.Name = string.Empty;
+                        intent.Score = 0.0;
                     }
+                    else
+                    {
+                        intent.Name = result.TopScoringIntent.Name;
+                        intent.Score = result.TopScoringIntent.Score;
+                    }
+
+                    foreach (var luisEntityList in result.Entities.Values)
+                    {
+                        foreach (var luisEntity in luisEntityList)
+                        {
+                            intent.Entities.Add(new LuisEntity(luisEntity));
+                        }
+                    }
+                }
+                catch(Exception e)
+                {
+                    context.Trace("LUIS Exception", e);
                 }
             }
                         
@@ -118,6 +134,20 @@ namespace Microsoft.Bot.Builder.Ai
         public int EndIndex { get; set; }
 
         public FlexObject Resolution { get; set; }
+    }
+
+    /// <summary>
+    /// A serialized format for language understanding
+    /// This should be normalized a bit more, right now it's just the raw LUIS result
+    /// </summary>
+    internal class SerializableLuisResult
+    {
+        public string OriginalQuery { get; set; }
+        public Intent TopScoringIntent { get; set; }
+        public Dialog DialogResponse { get; set; }
+        public Intent[] Intents { get; set; }
+        public IDictionary<string, IList<Microsoft.Cognitive.LUIS.Entity>> Entities { get; set; }
+        public IDictionary<string, IList<CompositeEntity>> CompositeEntities { get; set; }
     }
 }
 
