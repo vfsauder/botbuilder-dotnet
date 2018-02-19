@@ -64,7 +64,7 @@ namespace Microsoft.Bot.Schema
         /// <summary>
         /// Collection of Entity objects, each of which contains metadata about this activity. Each Entity object is typed.
         /// </summary>
-        IList<Entity> Entities { get; set; }
+        List<Entity> Entities { get; set; }
 
         /// <summary>
         /// Channel-specific payload

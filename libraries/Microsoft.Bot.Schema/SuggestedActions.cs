@@ -35,7 +35,7 @@ namespace Microsoft.Bot.Schema
         /// shown to.  These Ids are relative to the channelId and a subset of
         /// all recipients of the activity</param>
         /// <param name="actions">Actions that can be shown to the user</param>
-        public SuggestedActions(IList<string> to = default(IList<string>), IList<CardAction> actions = default(IList<CardAction>))
+        public SuggestedActions(List<string> to = default(List<string>), List<CardAction> actions = default(List<CardAction>))
         {
             To = to;
             Actions = actions;
@@ -53,13 +53,13 @@ namespace Microsoft.Bot.Schema
         /// recipients of the activity
         /// </summary>
         [JsonProperty(PropertyName = "to")]
-        public IList<string> To { get; set; }
+        public List<string> To { get; set; }
 
         /// <summary>
         /// Gets or sets actions that can be shown to the user
         /// </summary>
         [JsonProperty(PropertyName = "actions")]
-        public IList<CardAction> Actions { get; set; }
+        public List<CardAction> Actions { get; set; }
 
     }
 }

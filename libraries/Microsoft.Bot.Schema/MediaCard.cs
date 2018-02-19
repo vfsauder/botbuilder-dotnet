@@ -46,7 +46,7 @@ namespace Microsoft.Bot.Schema
         /// <param name="aspect">Aspect ratio of thumbnail/media placeholder,
         /// allowed values are "16:9" and "4:3"</param>
         /// <param name="value">Supplementary parameter for this card</param>
-        public MediaCard(string title = default(string), string subtitle = default(string), string text = default(string), ThumbnailUrl image = default(ThumbnailUrl), IList<MediaUrl> media = default(IList<MediaUrl>), IList<CardAction> buttons = default(IList<CardAction>), bool? shareable = default(bool?), bool? autoloop = default(bool?), bool? autostart = default(bool?), string aspect = default(string), object value = default(object))
+        public MediaCard(string title = default(string), string subtitle = default(string), string text = default(string), ThumbnailUrl image = default(ThumbnailUrl), List<MediaUrl> media = default(List<MediaUrl>), List<CardAction> buttons = default(List<CardAction>), bool? shareable = default(bool?), bool? autoloop = default(bool?), bool? autostart = default(bool?), string aspect = default(string), object value = default(object))
         {
             Title = title;
             Subtitle = subtitle;
@@ -95,13 +95,13 @@ namespace Microsoft.Bot.Schema
         /// Gets or sets media URLs for this card
         /// </summary>
         [JsonProperty(PropertyName = "media")]
-        public IList<MediaUrl> Media { get; set; }
+        public List<MediaUrl> Media { get; set; }
 
         /// <summary>
         /// Gets or sets actions on this card
         /// </summary>
         [JsonProperty(PropertyName = "buttons")]
-        public IList<CardAction> Buttons { get; set; }
+        public List<CardAction> Buttons { get; set; }
 
         /// <summary>
         /// Gets or sets this content may be shared with others (default:true)

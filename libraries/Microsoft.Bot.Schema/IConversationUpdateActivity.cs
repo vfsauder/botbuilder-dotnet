@@ -13,12 +13,12 @@ namespace Microsoft.Bot.Schema
         /// <summary>
         /// Members added to the conversation
         /// </summary>
-        IList<ChannelAccount> MembersAdded { get; set; }
+        List<ChannelAccount> MembersAdded { get; set; }
 
         /// <summary>
         /// Members removed from the conversation
         /// </summary>
-        IList<ChannelAccount> MembersRemoved { get; set; }
+        List<ChannelAccount> MembersRemoved { get; set; }
 
         /// <summary>
         /// The conversation's updated topic name

@@ -13,11 +13,11 @@ namespace Microsoft.Bot.Schema
         /// <summary>
         /// Reactions added to the activity
         /// </summary>
-        IList<MessageReaction> ReactionsAdded { get; set; }
+        List<MessageReaction> ReactionsAdded { get; set; }
 
         /// <summary>
         /// Reactions removed from the activity
         /// </summary>
-        IList<MessageReaction> ReactionsRemoved { get; set; }
+        List<MessageReaction> ReactionsRemoved { get; set; }
     }
 }

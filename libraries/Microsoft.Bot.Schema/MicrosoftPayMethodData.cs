@@ -36,7 +36,7 @@ namespace Microsoft.Bot.Schema
         /// "visa" and "mastercard")</param>
         /// <param name="supportedTypes">Supported payment types (e.g.,
         /// "credit")</param>
-        public MicrosoftPayMethodData(string mechantId = default(string), IList<string> supportedNetworks = default(IList<string>), IList<string> supportedTypes = default(IList<string>))
+        public MicrosoftPayMethodData(string mechantId = default(string), List<string> supportedNetworks = default(List<string>), List<string> supportedTypes = default(List<string>))
         {
             MechantId = mechantId;
             SupportedNetworks = supportedNetworks;
@@ -60,13 +60,13 @@ namespace Microsoft.Bot.Schema
         /// "mastercard")
         /// </summary>
         [JsonProperty(PropertyName = "supportedNetworks")]
-        public IList<string> SupportedNetworks { get; set; }
+        public List<string> SupportedNetworks { get; set; }
 
         /// <summary>
         /// Gets or sets supported payment types (e.g., "credit")
         /// </summary>
         [JsonProperty(PropertyName = "supportedTypes")]
-        public IList<string> SupportedTypes { get; set; }
+        public List<string> SupportedTypes { get; set; }
 
     }
 }

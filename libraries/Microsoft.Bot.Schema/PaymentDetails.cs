@@ -40,7 +40,7 @@ namespace Microsoft.Bot.Schema
         /// <param name="modifiers">Contains modifiers for particular payment
         /// method identifiers</param>
         /// <param name="error">Error description</param>
-        public PaymentDetails(PaymentItem total = default(PaymentItem), IList<PaymentItem> displayItems = default(IList<PaymentItem>), IList<PaymentShippingOption> shippingOptions = default(IList<PaymentShippingOption>), IList<PaymentDetailsModifier> modifiers = default(IList<PaymentDetailsModifier>), string error = default(string))
+        public PaymentDetails(PaymentItem total = default(PaymentItem), List<PaymentItem> displayItems = default(List<PaymentItem>), List<PaymentShippingOption> shippingOptions = default(List<PaymentShippingOption>), List<PaymentDetailsModifier> modifiers = default(List<PaymentDetailsModifier>), string error = default(string))
         {
             Total = total;
             DisplayItems = displayItems;
@@ -66,21 +66,21 @@ namespace Microsoft.Bot.Schema
         /// user agent may display
         /// </summary>
         [JsonProperty(PropertyName = "displayItems")]
-        public IList<PaymentItem> DisplayItems { get; set; }
+        public List<PaymentItem> DisplayItems { get; set; }
 
         /// <summary>
         /// Gets or sets a sequence containing the different shipping options
         /// for the user to choose from
         /// </summary>
         [JsonProperty(PropertyName = "shippingOptions")]
-        public IList<PaymentShippingOption> ShippingOptions { get; set; }
+        public List<PaymentShippingOption> ShippingOptions { get; set; }
 
         /// <summary>
         /// Gets or sets contains modifiers for particular payment method
         /// identifiers
         /// </summary>
         [JsonProperty(PropertyName = "modifiers")]
-        public IList<PaymentDetailsModifier> Modifiers { get; set; }
+        public List<PaymentDetailsModifier> Modifiers { get; set; }
 
         /// <summary>
         /// Gets or sets error description

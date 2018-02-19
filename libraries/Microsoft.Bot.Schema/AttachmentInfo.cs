@@ -34,7 +34,7 @@ namespace Microsoft.Bot.Schema
         /// <param name="name">Name of the attachment</param>
         /// <param name="type">ContentType of the attachment</param>
         /// <param name="views">attachment views</param>
-        public AttachmentInfo(string name = default(string), string type = default(string), IList<AttachmentView> views = default(IList<AttachmentView>))
+        public AttachmentInfo(string name = default(string), string type = default(string), List<AttachmentView> views = default(List<AttachmentView>))
         {
             Name = name;
             Type = type;
@@ -63,7 +63,7 @@ namespace Microsoft.Bot.Schema
         /// Gets or sets attachment views
         /// </summary>
         [JsonProperty(PropertyName = "views")]
-        public IList<AttachmentView> Views { get; set; }
+        public List<AttachmentView> Views { get; set; }
 
     }
 }

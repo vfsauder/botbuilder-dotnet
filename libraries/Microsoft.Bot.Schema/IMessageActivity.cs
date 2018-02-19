@@ -52,7 +52,7 @@ namespace Microsoft.Bot.Schema
         /// <summary>
         /// Attachments
         /// </summary>
-        IList<Attachment> Attachments { get; set; }
+        List<Attachment> Attachments { get; set; }
 
         /// <summary>
         /// SuggestedActions are used to express actions for interacting with a card like keyboards/quickReplies

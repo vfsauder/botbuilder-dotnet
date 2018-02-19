@@ -16,6 +16,6 @@ namespace Microsoft.Bot.Schema
         /// <summary>
         /// TextHighlight in the activity represented in the ReplyToId property
         /// </summary>
-        IList<TextHighlight> TextHighlights { get; set; }
+        List<TextHighlight> TextHighlights { get; set; }
     }
 }

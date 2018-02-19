@@ -7,6 +7,10 @@ call ..\node_modules\.bin\replace "Microsoft.Bot.Connector.Models" "Microsoft.Bo
 call ..\node_modules\.bin\replace "using Models;" "using Microsoft.Bot.Schema;"  . -r --include="*.cs"
 call ..\node_modules\.bin\replace "FromProperty" "From" . -r --include="*.cs"
 call ..\node_modules\.bin\replace "fromProperty" "from" . -r --include="*.cs"
+
+cd models
+call ..\..\node_modules\.bin\replace "IList" "List" . -r --include="*.cs"
+cd ..
 cd ..
 
 copy generated\Models\*.* ..\Microsoft.Bot.Schema

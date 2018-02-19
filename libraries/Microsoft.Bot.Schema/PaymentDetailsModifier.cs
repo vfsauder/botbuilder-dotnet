@@ -44,7 +44,7 @@ namespace Microsoft.Bot.Schema
         /// <param name="data">A JSON-serializable object that provides
         /// optional information that might be needed by the supported payment
         /// methods</param>
-        public PaymentDetailsModifier(IList<string> supportedMethods = default(IList<string>), PaymentItem total = default(PaymentItem), IList<PaymentItem> additionalDisplayItems = default(IList<PaymentItem>), object data = default(object))
+        public PaymentDetailsModifier(List<string> supportedMethods = default(List<string>), PaymentItem total = default(PaymentItem), List<PaymentItem> additionalDisplayItems = default(List<PaymentItem>), object data = default(object))
         {
             SupportedMethods = supportedMethods;
             Total = total;
@@ -62,7 +62,7 @@ namespace Microsoft.Bot.Schema
         /// Gets or sets contains a sequence of payment method identifiers
         /// </summary>
         [JsonProperty(PropertyName = "supportedMethods")]
-        public IList<string> SupportedMethods { get; set; }
+        public List<string> SupportedMethods { get; set; }
 
         /// <summary>
         /// Gets or sets this value overrides the total field in the
@@ -78,7 +78,7 @@ namespace Microsoft.Bot.Schema
         /// payment method identifiers in the supportedMethods field
         /// </summary>
         [JsonProperty(PropertyName = "additionalDisplayItems")]
-        public IList<PaymentItem> AdditionalDisplayItems { get; set; }
+        public List<PaymentItem> AdditionalDisplayItems { get; set; }
 
         /// <summary>
         /// Gets or sets a JSON-serializable object that provides optional

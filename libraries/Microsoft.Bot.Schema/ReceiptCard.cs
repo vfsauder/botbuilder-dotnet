@@ -45,7 +45,7 @@ namespace Microsoft.Bot.Schema
         /// paid)</param>
         /// <param name="buttons">Set of actions applicable to the current
         /// card</param>
-        public ReceiptCard(string title = default(string), IList<ReceiptItem> items = default(IList<ReceiptItem>), IList<Fact> facts = default(IList<Fact>), CardAction tap = default(CardAction), string total = default(string), string tax = default(string), string vat = default(string), IList<CardAction> buttons = default(IList<CardAction>))
+        public ReceiptCard(string title = default(string), List<ReceiptItem> items = default(List<ReceiptItem>), List<Fact> facts = default(List<Fact>), CardAction tap = default(CardAction), string total = default(string), string tax = default(string), string vat = default(string), List<CardAction> buttons = default(List<CardAction>))
         {
             Title = title;
             Items = items;
@@ -73,13 +73,13 @@ namespace Microsoft.Bot.Schema
         /// Gets or sets array of Receipt Items
         /// </summary>
         [JsonProperty(PropertyName = "items")]
-        public IList<ReceiptItem> Items { get; set; }
+        public List<ReceiptItem> Items { get; set; }
 
         /// <summary>
         /// Gets or sets array of Fact Objects   Array of key-value pairs.
         /// </summary>
         [JsonProperty(PropertyName = "facts")]
-        public IList<Fact> Facts { get; set; }
+        public List<Fact> Facts { get; set; }
 
         /// <summary>
         /// Gets or sets this action will be activated when user taps on the
@@ -110,7 +110,7 @@ namespace Microsoft.Bot.Schema
         /// Gets or sets set of actions applicable to the current card
         /// </summary>
         [JsonProperty(PropertyName = "buttons")]
-        public IList<CardAction> Buttons { get; set; }
+        public List<CardAction> Buttons { get; set; }
 
     }
 }

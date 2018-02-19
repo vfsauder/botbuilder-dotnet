@@ -39,7 +39,7 @@ namespace Microsoft.Bot.Schema
         /// card</param>
         /// <param name="tap">This action will be activated when user taps on
         /// the card itself</param>
-        public HeroCard(string title = default(string), string subtitle = default(string), string text = default(string), IList<CardImage> images = default(IList<CardImage>), IList<CardAction> buttons = default(IList<CardAction>), CardAction tap = default(CardAction))
+        public HeroCard(string title = default(string), string subtitle = default(string), string text = default(string), List<CardImage> images = default(List<CardImage>), List<CardAction> buttons = default(List<CardAction>), CardAction tap = default(CardAction))
         {
             Title = title;
             Subtitle = subtitle;
@@ -77,13 +77,13 @@ namespace Microsoft.Bot.Schema
         /// Gets or sets array of images for the card
         /// </summary>
         [JsonProperty(PropertyName = "images")]
-        public IList<CardImage> Images { get; set; }
+        public List<CardImage> Images { get; set; }
 
         /// <summary>
         /// Gets or sets set of actions applicable to the current card
         /// </summary>
         [JsonProperty(PropertyName = "buttons")]
-        public IList<CardAction> Buttons { get; set; }
+        public List<CardAction> Buttons { get; set; }
 
         /// <summary>
         /// Gets or sets this action will be activated when user taps on the

@@ -38,7 +38,7 @@ namespace Microsoft.Bot.Schema
         /// <param name="data">A JSON-serializable object that provides
         /// optional information that might be needed by the supported payment
         /// methods</param>
-        public PaymentMethodData(IList<string> supportedMethods = default(IList<string>), object data = default(object))
+        public PaymentMethodData(List<string> supportedMethods = default(List<string>), object data = default(object))
         {
             SupportedMethods = supportedMethods;
             Data = data;
@@ -55,7 +55,7 @@ namespace Microsoft.Bot.Schema
         /// identifiers for payment methods that the merchant web site accepts
         /// </summary>
         [JsonProperty(PropertyName = "supportedMethods")]
-        public IList<string> SupportedMethods { get; set; }
+        public List<string> SupportedMethods { get; set; }
 
         /// <summary>
         /// Gets or sets a JSON-serializable object that provides optional

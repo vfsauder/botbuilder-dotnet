@@ -22,7 +22,7 @@ namespace Microsoft.Bot.Schema
         /// <summary>
         /// Initializes a new instance of the MicrosoftPayMethodData class.
         /// </summary>
-        public MicrosoftPayMethodData(string merchantId = default(string), IList<string> supportedNetworks = default(IList<string>), IList<string> supportedTypes = default(IList<string>), bool testMode = false) : this(merchantId, supportedNetworks, supportedTypes)
+        public MicrosoftPayMethodData(string merchantId = default(string), List<string> supportedNetworks = default(List<string>), List<string> supportedTypes = default(List<string>), bool testMode = false) : this(merchantId, supportedNetworks, supportedTypes)
         {
             Mode = testMode ? TestModeValue : null;
         }

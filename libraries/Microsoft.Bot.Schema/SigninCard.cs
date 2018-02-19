@@ -33,7 +33,7 @@ namespace Microsoft.Bot.Schema
         /// </summary>
         /// <param name="text">Text for signin request</param>
         /// <param name="buttons">Action to use to perform signin</param>
-        public SigninCard(string text = default(string), IList<CardAction> buttons = default(IList<CardAction>))
+        public SigninCard(string text = default(string), List<CardAction> buttons = default(List<CardAction>))
         {
             Text = text;
             Buttons = buttons;
@@ -55,7 +55,7 @@ namespace Microsoft.Bot.Schema
         /// Gets or sets action to use to perform signin
         /// </summary>
         [JsonProperty(PropertyName = "buttons")]
-        public IList<CardAction> Buttons { get; set; }
+        public List<CardAction> Buttons { get; set; }
 
     }
 }

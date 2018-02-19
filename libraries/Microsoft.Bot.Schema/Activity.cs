@@ -105,7 +105,7 @@ namespace Microsoft.Bot.Schema
         /// "Notification" = notification semantics</param>
         /// <param name="textHighlights">TextHighlight in the activity
         /// represented in the ReplyToId property</param>
-        public Activity(string type = default(string), string id = default(string), System.DateTimeOffset? timestamp = default(System.DateTimeOffset?), System.DateTimeOffset? localTimestamp = default(System.DateTimeOffset?), string serviceUrl = default(string), string channelId = default(string), ChannelAccount from = default(ChannelAccount), ConversationAccount conversation = default(ConversationAccount), ChannelAccount recipient = default(ChannelAccount), string textFormat = default(string), string attachmentLayout = default(string), IList<ChannelAccount> membersAdded = default(IList<ChannelAccount>), IList<ChannelAccount> membersRemoved = default(IList<ChannelAccount>), IList<MessageReaction> reactionsAdded = default(IList<MessageReaction>), IList<MessageReaction> reactionsRemoved = default(IList<MessageReaction>), string topicName = default(string), bool? historyDisclosed = default(bool?), string locale = default(string), string text = default(string), string speak = default(string), string inputHint = default(string), string summary = default(string), SuggestedActions suggestedActions = default(SuggestedActions), IList<Attachment> attachments = default(IList<Attachment>), IList<Entity> entities = default(IList<Entity>), object channelData = default(object), string action = default(string), string replyToId = default(string), object value = default(object), string name = default(string), ConversationReference relatesTo = default(ConversationReference), string code = default(string), System.DateTimeOffset? expiration = default(System.DateTimeOffset?), string importance = default(string), string deliveryMode = default(string), IList<TextHighlight> textHighlights = default(IList<TextHighlight>))
+        public Activity(string type = default(string), string id = default(string), System.DateTimeOffset? timestamp = default(System.DateTimeOffset?), System.DateTimeOffset? localTimestamp = default(System.DateTimeOffset?), string serviceUrl = default(string), string channelId = default(string), ChannelAccount from = default(ChannelAccount), ConversationAccount conversation = default(ConversationAccount), ChannelAccount recipient = default(ChannelAccount), string textFormat = default(string), string attachmentLayout = default(string), List<ChannelAccount> membersAdded = default(List<ChannelAccount>), List<ChannelAccount> membersRemoved = default(List<ChannelAccount>), List<MessageReaction> reactionsAdded = default(List<MessageReaction>), List<MessageReaction> reactionsRemoved = default(List<MessageReaction>), string topicName = default(string), bool? historyDisclosed = default(bool?), string locale = default(string), string text = default(string), string speak = default(string), string inputHint = default(string), string summary = default(string), SuggestedActions suggestedActions = default(SuggestedActions), List<Attachment> attachments = default(List<Attachment>), List<Entity> entities = default(List<Entity>), object channelData = default(object), string action = default(string), string replyToId = default(string), object value = default(object), string name = default(string), ConversationReference relatesTo = default(ConversationReference), string code = default(string), System.DateTimeOffset? expiration = default(System.DateTimeOffset?), string importance = default(string), string deliveryMode = default(string), List<TextHighlight> textHighlights = default(List<TextHighlight>))
         {
             Type = type;
             Id = id;
@@ -230,25 +230,25 @@ namespace Microsoft.Bot.Schema
         /// Gets or sets members added to the conversation
         /// </summary>
         [JsonProperty(PropertyName = "membersAdded")]
-        public IList<ChannelAccount> MembersAdded { get; set; }
+        public List<ChannelAccount> MembersAdded { get; set; }
 
         /// <summary>
         /// Gets or sets members removed from the conversation
         /// </summary>
         [JsonProperty(PropertyName = "membersRemoved")]
-        public IList<ChannelAccount> MembersRemoved { get; set; }
+        public List<ChannelAccount> MembersRemoved { get; set; }
 
         /// <summary>
         /// Gets or sets reactions added to the activity
         /// </summary>
         [JsonProperty(PropertyName = "reactionsAdded")]
-        public IList<MessageReaction> ReactionsAdded { get; set; }
+        public List<MessageReaction> ReactionsAdded { get; set; }
 
         /// <summary>
         /// Gets or sets reactions removed from the activity
         /// </summary>
         [JsonProperty(PropertyName = "reactionsRemoved")]
-        public IList<MessageReaction> ReactionsRemoved { get; set; }
+        public List<MessageReaction> ReactionsRemoved { get; set; }
 
         /// <summary>
         /// Gets or sets the conversation's updated topic name
@@ -305,14 +305,14 @@ namespace Microsoft.Bot.Schema
         /// Gets or sets attachments
         /// </summary>
         [JsonProperty(PropertyName = "attachments")]
-        public IList<Attachment> Attachments { get; set; }
+        public List<Attachment> Attachments { get; set; }
 
         /// <summary>
         /// Gets or sets collection of Entity objects, each of which contains
         /// metadata about this activity. Each Entity object is typed.
         /// </summary>
         [JsonProperty(PropertyName = "entities")]
-        public IList<Entity> Entities { get; set; }
+        public List<Entity> Entities { get; set; }
 
         /// <summary>
         /// Gets or sets channel-specific payload
@@ -389,7 +389,7 @@ namespace Microsoft.Bot.Schema
         /// ReplyToId property
         /// </summary>
         [JsonProperty(PropertyName = "textHighlights")]
-        public IList<TextHighlight> TextHighlights { get; set; }
+        public List<TextHighlight> TextHighlights { get; set; }
 
     }
 }

@@ -58,7 +58,7 @@ namespace Microsoft.Bot.Schema
         /// contact person.</param>
         /// <param name="phone">This is the phone number of the recipient or
         /// contact person.</param>
-        public PaymentAddress(string country = default(string), IList<string> addressLine = default(IList<string>), string region = default(string), string city = default(string), string dependentLocality = default(string), string postalCode = default(string), string sortingCode = default(string), string languageCode = default(string), string organization = default(string), string recipient = default(string), string phone = default(string))
+        public PaymentAddress(string country = default(string), List<string> addressLine = default(List<string>), string region = default(string), string city = default(string), string dependentLocality = default(string), string postalCode = default(string), string sortingCode = default(string), string languageCode = default(string), string organization = default(string), string recipient = default(string), string phone = default(string))
         {
             Country = country;
             AddressLine = addressLine;
@@ -93,7 +93,7 @@ namespace Microsoft.Bot.Schema
         /// office box number.
         /// </summary>
         [JsonProperty(PropertyName = "addressLine")]
-        public IList<string> AddressLine { get; set; }
+        public List<string> AddressLine { get; set; }
 
         /// <summary>
         /// Gets or sets this is the top level administrative subdivision of

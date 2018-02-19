@@ -3,6 +3,7 @@
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Xml.Serialization;
 
 namespace Microsoft.Bot.Schema
 {
@@ -12,6 +13,7 @@ namespace Microsoft.Bot.Schema
         /// Extension data for overflow of properties
         /// </summary>
         [JsonExtensionData(ReadData = true, WriteData = true)]
+        [XmlIgnore]
         public JObject Properties { get; set; } = new JObject();
 
         /// <summary>

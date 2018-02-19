@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -71,6 +72,7 @@ namespace Microsoft.Bot.Schema
         /// Extension data for overflow of properties
         /// </summary>
         [JsonExtensionData(ReadData = true, WriteData = true)]
+        [XmlIgnore]
         public JObject Properties { get; set; } = new JObject();
 
         /// <summary>

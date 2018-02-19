@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder
@@ -106,7 +107,7 @@ namespace Microsoft.Bot.Builder
             SetTextAndSpeak(ma, text, ssml);
 
             ma.SuggestedActions = new SuggestedActions();
-            ma.SuggestedActions.Actions = cardActions;
+            ma.SuggestedActions.Actions = cardActions.ToList();
 
             return ma;
         }
@@ -206,7 +207,7 @@ namespace Microsoft.Bot.Builder
         {
             IMessageActivity ma = Activity.CreateMessageActivity();
             ma.AttachmentLayout = attachmentLayout;
-            ma.Attachments = attachments;
+            ma.Attachments = attachments.ToList();
             SetTextAndSpeak(ma, text, ssml);
             return ma;
         }

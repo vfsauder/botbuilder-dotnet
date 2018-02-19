@@ -40,7 +40,7 @@ namespace Microsoft.Bot.Schema
         /// use this activity as the intial message to the conversation</param>
         /// <param name="channelData">Channel specific payload for creating the
         /// conversation</param>
-        public ConversationParameters(bool? isGroup = default(bool?), ChannelAccount bot = default(ChannelAccount), IList<ChannelAccount> members = default(IList<ChannelAccount>), string topicName = default(string), Activity activity = default(Activity), object channelData = default(object))
+        public ConversationParameters(bool? isGroup = default(bool?), ChannelAccount bot = default(ChannelAccount), List<ChannelAccount> members = default(List<ChannelAccount>), string topicName = default(string), Activity activity = default(Activity), object channelData = default(object))
         {
             IsGroup = isGroup;
             Bot = bot;
@@ -72,7 +72,7 @@ namespace Microsoft.Bot.Schema
         /// Gets or sets members to add to the conversation
         /// </summary>
         [JsonProperty(PropertyName = "members")]
-        public IList<ChannelAccount> Members { get; set; }
+        public List<ChannelAccount> Members { get; set; }
 
         /// <summary>
         /// Gets or sets (Optional) Topic of the conversation (if supported by
