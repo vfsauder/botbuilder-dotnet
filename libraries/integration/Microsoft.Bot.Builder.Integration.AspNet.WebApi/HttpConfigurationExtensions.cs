@@ -49,14 +49,14 @@ namespace Microsoft.Bot.Builder.Integration.AspNet.WebApi
                     baseUrl += "/";
                 }
 
-                if (options.EnableProactiveMessages)
+                if (options.EnableExternalEventsEndpoint)
                 {
                     routes.MapHttpRoute(
-                        "BotFramework - Proactive Message Handler",
-                        baseUrl + options.Paths.ProactiveMessagesPath,
+                        "BotFramework - External Events Handler",
+                        baseUrl + options.Paths.ExternalEventsPath,
                         defaults: null,
                         constraints: null,
-                        handler: new BotProactiveMessageHandler(adapter));
+                        handler: new BotExternalEventsHandler(adapter));
                 }
 
                 routes.MapHttpRoute(

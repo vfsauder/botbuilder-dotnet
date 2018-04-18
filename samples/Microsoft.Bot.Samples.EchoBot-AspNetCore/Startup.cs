@@ -35,7 +35,7 @@ namespace Microsoft.Bot.Samples.Echo.AspNetCore
             services.AddBot<EchoBot>(options =>
             {
                 options.CredentialProvider = new ConfigurationCredentialProvider(Configuration);
-                options.EnableProactiveMessages = true;
+                options.EnableExternalEventsEndpoint = true;
                 options.ConnectorClientRetryPolicy = new RetryPolicy(
                     new BotFrameworkHttpStatusCodeErrorDetectionStrategy(), 3, TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(20), TimeSpan.FromSeconds(1));
             });

@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Integration.AspNet.WebApi.Handlers
 {
-    public sealed class BotProactiveMessageHandler : BotMessageHandlerBase
+    public sealed class BotExternalEventsHandler : BotMessageHandlerBase
     {
-        public BotProactiveMessageHandler(BotFrameworkAdapter botFrameworkAdapter) : base(botFrameworkAdapter)
+        public BotExternalEventsHandler(BotFrameworkAdapter botFrameworkAdapter) : base(botFrameworkAdapter)
         {
         }
 
@@ -41,9 +41,14 @@ namespace Microsoft.Bot.Builder.Integration.AspNet.WebApi.Handlers
                 throw new InvalidOperationException($"Expected a Bot App ID in a header named \"{BotAppIdHttpHeaderName}\" or in a querystring parameter named \"{BotAppIdQueryStringParameterName}\".");
             }
 
-            var conversationReference = await request.Content.ReadAsAsync<ConversationReference>(BotMessageHandlerBase.BotMessageMediaTypeFormatters, cancellationToken);
+            var eventActivity = await request.Content.ReadAsAsync<Activity>(BotMessageHandlerBase.BotMessageMediaTypeFormatters, cancellationToken);
 
-            await botFrameworkAdapter.ContinueConversation(botAppId, conversationReference, botCallbackHandler);
+            if (eventActivity?.Type == null)
+            {
+                throw new InvalidOperationException($"Expected to find an activity of type \"{ActivityTypes.Event}\" in the request body.");
+            }
+
+            await botFrameworkAdapter.ProcessActivity(botAppId, eventActivity, botCallbackHandler);
 
             return null;
         }

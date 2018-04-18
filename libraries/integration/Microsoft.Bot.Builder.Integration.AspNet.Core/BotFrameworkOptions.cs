@@ -36,12 +36,12 @@ namespace Microsoft.Bot.Builder.Integration.AspNet.Core
         public IList<IMiddleware> Middleware { get => _middleware; }
 
         /// <summary>
-        /// Gets or sets whether a proactive messaging endpoint should be exposed for the bot.
+        /// Gets or sets whether an endpoint should be enabled that allows external events to be sent to the bot.
         /// </summary>
         /// <value>
-        /// True if the proactive messaging endpoint should be enabled, otherwise false.
+        /// True if the external events endpoint should be enabled, otherwise false.
         /// </value>
-        public bool EnableProactiveMessages { get; set; }
+        public bool EnableExternalEventsEndpoint { get; set; }
 
         /// <summary>
         /// Gets or sets the retry policy to retry operations in case of errors from Bot Framework.
