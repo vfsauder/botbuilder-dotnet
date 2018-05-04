@@ -386,3 +386,5 @@ Documentation/docs/
 PublishProfiles/
 
 appsettings.local.json
+/samples-final/AspNetCore-Luis-Dispatch-Bot/scripts/.vscode
+/samples-final/AspNetCore-Luis-Dispatch-Bot/scripts/generated
