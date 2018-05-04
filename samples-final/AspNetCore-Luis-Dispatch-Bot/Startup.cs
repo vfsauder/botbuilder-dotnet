@@ -70,7 +70,7 @@ namespace AspNetCore_Luis_Dispatch_Bot
 
         public static (string knowledgeBaseId, string subscriptionKey) GetQnAMakerConfiguration(IConfiguration configuration)
         {
-            var knowledgeBaseId = configuration.GetSection("QnQMaker-KnowledgeBaseId")?.Value;
+            var knowledgeBaseId = configuration.GetSection("QnAMaker-KnowledgeBaseId")?.Value;
             var subscriptionKey = configuration.GetSection("QnAMaker-SubscriptionKey")?.Value;
             return (knowledgeBaseId, subscriptionKey);
         }

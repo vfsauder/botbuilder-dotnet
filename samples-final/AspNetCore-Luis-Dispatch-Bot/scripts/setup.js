@@ -54,7 +54,7 @@ settings["Luis-Url"] = "https://" + luisRegion + ".api.cognitive.microsoft.com/l
 settings["Luis-ModelId-Dispatcher"] = dispatchid;
 settings["Luis-ModelId-HomeAutomation"] = homeid;
 settings["Luis-ModelId-Weather"] = weatherid;
-settings["QnAMaker-SubscriptionKy"] = qnakey;
+settings["QnAMaker-SubscriptionKey"] = qnakey;
 settings["QnAMaker-KnowledgeBaseId"] = qnakbid;
 fs.writeFileSync("../appsettings.json", JSON.stringify(settings, null, 2), {encoding:'utf8'});
 
