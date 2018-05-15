@@ -68,5 +68,36 @@ namespace Microsoft.Bot.Builder.Prompts.Tests
             });
         }
 
+        public override IDictionary<string, IList<Activity>> TranscriptFiles { get; }
+
+        public ConfirmPromptTests()
+        {
+            TranscriptFiles = new Dictionary<string, IList<Activity>>();
+            var confirmPromptTestTranscript = new List<Activity> {
+                { MessageFactory.Text("hello") },
+                { BotMessage("Gimme:") },
+                { MessageFactory.Text("tyest tnot") },
+                { BotMessage(PromptStatus.NotRecognized.ToString()) },
+                { MessageFactory.Text(".. yes please ") },
+                { BotMessage("True") },
+                { MessageFactory.Text(".. no thank you") },
+                { BotMessage("False") }
+            };
+            TranscriptFiles.Add("ConfirmPromptTests.ConfirmPrompt_Test", confirmPromptTestTranscript);
+
+            var confirmPromptValidatorTranscript = new List<Activity> {
+                { MessageFactory.Text("hello") },
+                { BotMessage("Gimme:") },
+                { MessageFactory.Text(" yes you xxx") },
+                { BotMessage(PromptStatus.NotRecognized.ToString()) },
+                { MessageFactory.Text(" no way you xxx") },
+                { BotMessage(PromptStatus.NotRecognized.ToString()) },
+                { MessageFactory.Text(" yep") },
+                { BotMessage("True") },
+                { MessageFactory.Text(" nope") },
+                { BotMessage("False") }
+            };
+            TranscriptFiles.Add("ConfirmPromptTests.ConfirmPrompt_Validator", confirmPromptValidatorTranscript);
+        }
     }
 }

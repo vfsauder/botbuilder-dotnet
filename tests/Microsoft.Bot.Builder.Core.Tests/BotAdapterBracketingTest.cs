@@ -1,14 +1,46 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Adapters;
+using Microsoft.Bot.Builder.Tests;
+using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Bot.Builder.Core.Tests
 {
     [TestClass]
     [TestCategory("Middleware")]
-    public class BotAdapterBracketingTest
+    public class BotAdapterBracketingTest : BaseTest
     {
+        public override IDictionary<string, IList<Activity>> TranscriptFiles { get; }
+
+        public BotAdapterBracketingTest()
+        {
+            TranscriptFiles = new Dictionary<string, IList<Activity>>
+            {
+                {
+                    "BotAdapterBracketingTest.Middlware_BracketingValidation",
+                    new List<Activity>()
+                    {
+                        { UserMessage("test") },
+                        { BotMessage("BEFORE") },
+                        { BotMessage("ECHO:test") },
+                        { BotMessage("AFTER") }
+                    }
+                },
+                {
+                    "BotAdapterBracketingTest.Middlware_ThrowException",
+                    new List<Activity>()
+                    {
+                        { UserMessage("test") },
+                        { BotMessage("BEFORE") },
+                        { BotMessage("ECHO:test") },
+                        { BotMessage("CAUGHT:Test Exception") },
+                        { BotMessage("AFTER") }
+                    }
+                }
+            };
+        }
 
         /// <summary>
         /// Developer authored Middleware that looks like this:
@@ -27,21 +59,10 @@ namespace Microsoft.Bot.Builder.Core.Tests
         [TestMethod]
         public async Task Middlware_BracketingValidation()
         {
-            TestAdapter adapter = new TestAdapter()
-                .Use(new BeforeAFterMiddlware());
-
-            async Task Echo(ITurnContext ctx)
-            {
-                string toEcho = "ECHO:" + ctx.Activity.AsMessageActivity().Text;
-                await ctx.SendActivity(ctx.Activity.CreateReply(toEcho)); 
-            }
-
-            await new TestFlow(adapter, Echo)
-                .Send("test")
-                .AssertReply("BEFORE")
-                .AssertReply("ECHO:test")
-                .AssertReply("AFTER")
-                .StartTest();
+            await DoTest(new IMiddleware[] { new BeforeAFterMiddlware() }, (context) => {
+                var response = "ECHO:" + context.Activity.AsMessageActivity().Text;
+                return context.SendActivity(response);
+            });
         }
 
         /// <summary>
@@ -53,25 +74,11 @@ namespace Microsoft.Bot.Builder.Core.Tests
         [TestMethod]
         public async Task Middlware_ThrowException()
         {
-            string uniqueId = Guid.NewGuid().ToString();
-
-            TestAdapter adapter = new TestAdapter()
-                .Use(new CatchExceptionMiddleware());
-
-            async Task EchoWithException(ITurnContext ctx)
-            {
-                string toEcho = "ECHO:" + ctx.Activity.AsMessageActivity().Text;
-                await ctx.SendActivity(ctx.Activity.CreateReply(toEcho));
-                throw new Exception(uniqueId);
-            }
-
-            await new TestFlow(adapter, EchoWithException)
-                .Send("test")
-                .AssertReply("BEFORE")
-                .AssertReply("ECHO:test")
-                .AssertReply("CAUGHT:" + uniqueId)
-                .AssertReply("AFTER")
-                .StartTest();
+            await DoTest(new IMiddleware[] { new CatchExceptionMiddleware() }, async (context) => {
+                string toEcho = "ECHO:" + context.Activity.AsMessageActivity().Text;
+                await context.SendActivity(context.Activity.CreateReply(toEcho));
+                throw new Exception("Test Exception");
+            });
         }
 
         public class CatchExceptionMiddleware : IMiddleware

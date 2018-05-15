@@ -29,7 +29,7 @@ namespace Microsoft.Bot.Builder.Tests
             return transcript;
         }
 
-        protected Task DoTest<T>(Func<ITurnContext, Task> middlewareHandler) where T: class, new()
+        protected Task DoTest<T>(Func<ITurnContext, Task> middlewareHandler) where T : class, new()
         {
             var transcript = GetTranscript();
             TestAdapter adapter = new TestAdapter()
@@ -49,6 +49,37 @@ namespace Microsoft.Bot.Builder.Tests
             }
 
             return testFlow.StartTest();
+        }
+
+        protected Task DoTest(IEnumerable<IMiddleware> middlewareList, Func<ITurnContext, Task> middlewareHandler)
+        {
+            var transcript = GetTranscript();
+            TestAdapter adapter = new TestAdapter();
+            foreach (var middleware in middlewareList)
+            {
+                adapter.Use(middleware);
+            }
+
+            var testFlow = new TestFlow(adapter, middlewareHandler);
+            foreach (var activity in transcript)
+            {
+                if (string.Equals("bot", activity.From?.Role, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    testFlow.AssertReply(activity);
+                }
+                else
+                {
+                    testFlow.Send(activity);
+                }
+            }
+            return testFlow.StartTest();
+        }
+
+        protected Activity UserMessage(string text)
+        {
+            var message = MessageFactory.Text(text);
+            message.From = new ChannelAccount { Role = "user" };
+            return message;
         }
     }
 }
