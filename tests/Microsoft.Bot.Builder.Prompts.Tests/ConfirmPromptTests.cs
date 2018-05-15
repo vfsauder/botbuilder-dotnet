@@ -1,11 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Core.Extensions;
 using Microsoft.Bot.Builder.Tests;
-using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -16,39 +14,6 @@ namespace Microsoft.Bot.Builder.Prompts.Tests
     [TestCategory("Confirm Prompts")]
     public class ConfirmPromptTests : BaseTest
     {
-        public override IDictionary<string, IList<Activity>> TranscriptFiles { get; }
-
-        public ConfirmPromptTests()
-        {
-            TranscriptFiles = new Dictionary<string, IList<Activity>>();
-            var confirmPromptTestTranscript = new List<Activity> {
-                { MessageFactory.Text("hello") },
-                { BotMessage("Gimme:") },
-                { MessageFactory.Text("tyest tnot") },
-                { BotMessage(PromptStatus.NotRecognized.ToString()) },
-                { MessageFactory.Text(".. yes please ") },
-                { BotMessage("True") },
-                { MessageFactory.Text(".. no thank you") },
-                { BotMessage("False") }
-            };
-            TranscriptFiles.Add("ConfirmPromptTests.ConfirmPrompt_Test", confirmPromptTestTranscript);
-
-            var confirmPromptValidatorTranscript = new List<Activity> {
-                { MessageFactory.Text("hello") },
-                { BotMessage("Gimme:") },
-                { MessageFactory.Text(" yes you xxx") },
-                { BotMessage(PromptStatus.NotRecognized.ToString()) },
-                { MessageFactory.Text(" no way you xxx") },
-                { BotMessage(PromptStatus.NotRecognized.ToString()) },
-                { MessageFactory.Text(" yep") },
-                { BotMessage("True") },
-                { MessageFactory.Text(" nope") },
-                { BotMessage("False") }
-            };
-            TranscriptFiles.Add("ConfirmPromptTests.ConfirmPrompt_Validator", confirmPromptValidatorTranscript);
-        }
-
-
         [TestMethod]
         public async Task ConfirmPrompt_Test()
         {

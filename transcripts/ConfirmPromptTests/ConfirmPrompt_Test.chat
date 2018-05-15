@@ -1,0 +1,11 @@
+user=User
+bot=Bot
+
+User: hello
+Bot: Gimme:
+User: tyest tnot
+Bot: NotRecognized
+User: .. yes please 
+Bot: True
+User: .. no thank you
+Bot: False

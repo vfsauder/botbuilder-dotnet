@@ -1,31 +1,32 @@
-﻿using Microsoft.Bot.Builder.Adapters;
-using Microsoft.Bot.Builder.Core.Extensions;
-using Microsoft.Bot.Schema;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder.Adapters;
+using Microsoft.Bot.Builder.Core.Extensions;
+using Microsoft.Bot.Builder.Core.Extensions.Tests;
+using Microsoft.Bot.Schema;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Tests
 {
     [TestClass]
     public abstract class BaseTest
     {
-        private TestContext testContext;
+        public TestContext TestContext { get; set; }
 
-        public TestContext TestContext
+        protected IEnumerable<Activity> GetTranscript()
         {
-            get { return testContext; }
-            set { testContext = value; }
-        }
+            var transcriptsRootFolder = TestUtilities.GetKey("TranscriptsRootFolder") ?? @"..\..\..\..\..\transcripts";
+            var transcriptFilename = $@"{TestContext.FullyQualifiedTestClassName.Split('.').Last()}\{TestContext.TestName}.transcript";
+            var transcriptPath = $@"{transcriptsRootFolder}\{transcriptFilename}";
 
-        public abstract IDictionary<string, IList<Activity>> TranscriptFiles { get; }
+            var transcriptContent = File.ReadAllText(transcriptPath);
+            var transcript = JsonConvert.DeserializeObject<Activity[]>(transcriptContent);
 
-        protected IList<Activity> GetTranscript()
-        {
-            var key = TestContext.FullyQualifiedTestClassName.Split('.').Last() + "." + TestContext.TestName;
-            return TranscriptFiles[key];
+            return transcript;
         }
 
         protected Task DoTest<T>(Func<ITurnContext, Task> middlewareHandler) where T: class, new()
@@ -46,14 +47,8 @@ namespace Microsoft.Bot.Builder.Tests
                     testFlow.Send(activity);
                 }
             }
+
             return testFlow.StartTest();
         }
-        protected Activity BotMessage(string text)
-        {
-            var message = MessageFactory.Text(text);
-            message.From = new ChannelAccount { Role = "bot" };
-            return message;
-        }
-
     }
 }
