@@ -1,11 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.Core.Extensions;
+using Microsoft.Bot.Builder.Tests;
 using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,40 +14,13 @@ namespace Microsoft.Bot.Builder.Prompts.Tests
     [TestClass]
     [TestCategory("Prompts")]
     [TestCategory("Confirm Prompts")]
-    public class ConfirmPromptTests
+    public class ConfirmPromptTests : BaseTest
     {
-        private TestFlow Test(IList<Activity> transcript, Func<ITurnContext, Task> middleware)
-        {
-            TestAdapter adapter = new TestAdapter()
-                .Use(new ConversationState<TestState>(new MemoryStorage()));
-
-            var testFlow = new TestFlow(adapter, middleware);
-            foreach (var activity in transcript)
-            {
-                if (string.Equals("bot", activity.From?.Role, System.StringComparison.InvariantCultureIgnoreCase))
-                {
-                    testFlow.AssertReply(activity);
-                }
-                else
-                {
-                    testFlow.Send(activity);
-                }
-            }
-
-            return testFlow;
-        }
-
-        private Activity BotMessage(string text)
-        {
-            var message = MessageFactory.Text(text);
-            message.From = new ChannelAccount { Role = "bot" };
-            return message;
-        }
-
-        private IDictionary<string, IList<Activity>> transcriptFiles = new Dictionary<string, IList<Activity>>();
+        public override IDictionary<string, IList<Activity>> TranscriptFiles { get; }
 
         public ConfirmPromptTests()
         {
+            TranscriptFiles = new Dictionary<string, IList<Activity>>();
             var confirmPromptTestTranscript = new List<Activity> {
                 { MessageFactory.Text("hello") },
                 { BotMessage("Gimme:") },
@@ -59,7 +31,7 @@ namespace Microsoft.Bot.Builder.Prompts.Tests
                 { MessageFactory.Text(".. no thank you") },
                 { BotMessage("False") }
             };
-            transcriptFiles.Add("ConfirmPromptTests.ConfirmPrompt_Test", confirmPromptTestTranscript);
+            TranscriptFiles.Add("ConfirmPromptTests.ConfirmPrompt_Test", confirmPromptTestTranscript);
 
             var confirmPromptValidatorTranscript = new List<Activity> {
                 { MessageFactory.Text("hello") },
@@ -73,15 +45,14 @@ namespace Microsoft.Bot.Builder.Prompts.Tests
                 { MessageFactory.Text(" nope") },
                 { BotMessage("False") }
             };
-            transcriptFiles.Add("ConfirmPromptTests.ConfirmPrompt_Validator", confirmPromptValidatorTranscript);
+            TranscriptFiles.Add("ConfirmPromptTests.ConfirmPrompt_Validator", confirmPromptValidatorTranscript);
         }
+
 
         [TestMethod]
         public async Task ConfirmPrompt_Test()
         {
-            var transcript = transcriptFiles["ConfirmPromptTests.ConfirmPrompt_Test"];
-
-            Func<ITurnContext, Task> middleware = async (context) =>
+            await DoTest<TestState>(async (context) =>
             {
                 var state = ConversationState<TestState>.Get(context);
                 var testPrompt = new ConfirmPrompt(Culture.English);
@@ -101,18 +72,13 @@ namespace Microsoft.Bot.Builder.Prompts.Tests
                     else
                         await context.SendActivity(confirmResult.Status.ToString());
                 }
-            };
-
-            var testFlow = Test(transcript, middleware);
-            await testFlow.StartTest();
+            });
         }
 
         [TestMethod]
         public async Task ConfirmPrompt_Validator()
         {
-            var transcript = transcriptFiles["ConfirmPromptTests.ConfirmPrompt_Validator"];
-
-            Func<ITurnContext, Task> middleware = async (context) =>
+            await DoTest<TestState>(async (context) =>
             {
                 var state = ConversationState<TestState>.Get(context);
                 var confirmPrompt = new ConfirmPrompt(Culture.English, async (ctx, result) =>
@@ -134,10 +100,7 @@ namespace Microsoft.Bot.Builder.Prompts.Tests
                     else
                         await context.SendActivity(confirmResult.Status.ToString());
                 }
-            };
-
-            var testFlow = Test(transcript, middleware);
-            await testFlow.StartTest();
+            });
         }
 
     }
