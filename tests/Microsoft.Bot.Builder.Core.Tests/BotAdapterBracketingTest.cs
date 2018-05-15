@@ -12,36 +12,6 @@ namespace Microsoft.Bot.Builder.Core.Tests
     [TestCategory("Middleware")]
     public class BotAdapterBracketingTest : BaseTest
     {
-        public override IDictionary<string, IList<Activity>> TranscriptFiles { get; }
-
-        public BotAdapterBracketingTest()
-        {
-            TranscriptFiles = new Dictionary<string, IList<Activity>>
-            {
-                {
-                    "BotAdapterBracketingTest.Middlware_BracketingValidation",
-                    new List<Activity>()
-                    {
-                        { UserMessage("test") },
-                        { BotMessage("BEFORE") },
-                        { BotMessage("ECHO:test") },
-                        { BotMessage("AFTER") }
-                    }
-                },
-                {
-                    "BotAdapterBracketingTest.Middlware_ThrowException",
-                    new List<Activity>()
-                    {
-                        { UserMessage("test") },
-                        { BotMessage("BEFORE") },
-                        { BotMessage("ECHO:test") },
-                        { BotMessage("CAUGHT:Test Exception") },
-                        { BotMessage("AFTER") }
-                    }
-                }
-            };
-        }
-
         /// <summary>
         /// Developer authored Middleware that looks like this:
         /// public async Task ReceiveActivity(ITurnContext context, 
