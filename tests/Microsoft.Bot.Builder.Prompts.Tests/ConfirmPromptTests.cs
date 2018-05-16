@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.Core.Extensions;
 using Microsoft.Bot.Builder.Tests;
 using Microsoft.Recognizers.Text;
@@ -12,12 +13,19 @@ namespace Microsoft.Bot.Builder.Prompts.Tests
     [TestClass]
     [TestCategory("Prompts")]
     [TestCategory("Confirm Prompts")]
-    public class ConfirmPromptTests : BaseTest
+    public class ConfirmPromptTests
     {
+        public TestContext TestContext { get; set; }
+
         [TestMethod]
         public async Task ConfirmPrompt_Test()
         {
-            await DoTest<TestState>(async (context) =>
+            var activities = TranscriptUtilities.GetFromTestContext(TestContext);
+
+            TestAdapter adapter = new TestAdapter()
+                .Use(new ConversationState<TestState>(new MemoryStorage()));
+
+            var flow = new TestFlow(adapter, async (context) =>
             {
                 var state = ConversationState<TestState>.Get(context);
                 var testPrompt = new ConfirmPrompt(Culture.English);
@@ -38,12 +46,19 @@ namespace Microsoft.Bot.Builder.Prompts.Tests
                         await context.SendActivity(confirmResult.Status.ToString());
                 }
             });
+            
+            await flow.Test(activities).StartTest();
         }
 
         [TestMethod]
         public async Task ConfirmPrompt_Validator()
         {
-            await DoTest<TestState>(async (context) =>
+            var activities = TranscriptUtilities.GetFromTestContext(TestContext);
+
+            TestAdapter adapter = new TestAdapter()
+                .Use(new ConversationState<TestState>(new MemoryStorage()));
+
+            await new TestFlow(adapter, async (context) =>
             {
                 var state = ConversationState<TestState>.Get(context);
                 var confirmPrompt = new ConfirmPrompt(Culture.English, async (ctx, result) =>
@@ -65,7 +80,7 @@ namespace Microsoft.Bot.Builder.Prompts.Tests
                     else
                         await context.SendActivity(confirmResult.Status.ToString());
                 }
-            });
+            }).Test(activities).StartTest();
         }
     }
 }

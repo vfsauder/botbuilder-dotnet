@@ -235,6 +235,9 @@ namespace Microsoft.Bot.Builder.Adapters
             this.adapter = flow.adapter;
         }
 
+        public TestFlow(TestAdapter adapter, IBot bot) : this(adapter, (ctx) => bot.OnTurn(ctx))
+        { }
+
         /// <summary>
         /// Start the execution of the test flow
         /// </summary>
@@ -432,6 +435,16 @@ namespace Microsoft.Bot.Builder.Adapters
 
             return this.Send(userSays)
                 .AssertReply(expected, description, timeout);
+        }
+
+        public TestFlow Test(IEnumerable<IActivity> activities, string description = null, UInt32 timeout = 3000)
+        {
+            if (activities == null)
+                throw new ArgumentNullException(nameof(activities));
+
+            bool IsReply(IActivity activity) => string.Equals("bot", activity.From?.Role, StringComparison.InvariantCultureIgnoreCase);
+
+            return activities.Aggregate(this, (flow, activity) => IsReply(activity) ? flow.AssertReply(activity, description, timeout) : flow.Send(activity));
         }
 
         /// <summary>

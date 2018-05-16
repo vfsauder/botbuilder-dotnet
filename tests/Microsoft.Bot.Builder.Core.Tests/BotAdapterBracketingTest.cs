@@ -1,17 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.Tests;
-using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Bot.Builder.Core.Tests
 {
     [TestClass]
     [TestCategory("Middleware")]
-    public class BotAdapterBracketingTest : BaseTest
+    public class BotAdapterBracketingTest
     {
+        public TestContext TestContext { get; set; }
+
         /// <summary>
         /// Developer authored Middleware that looks like this:
         /// public async Task ReceiveActivity(ITurnContext context, 
@@ -29,10 +29,17 @@ namespace Microsoft.Bot.Builder.Core.Tests
         [TestMethod]
         public async Task Middlware_BracketingValidation()
         {
-            await DoTest(new IMiddleware[] { new BeforeAFterMiddlware() }, (context) => {
+            var activities = TranscriptUtilities.GetFromTestContext(TestContext);
+
+            TestAdapter adapter = new TestAdapter()
+                .Use(new BeforeAfterMiddleware());
+
+            var flow = new TestFlow(adapter, (context) => {
                 var response = "ECHO:" + context.Activity.AsMessageActivity().Text;
                 return context.SendActivity(response);
             });
+
+            await flow.Test(activities).StartTest();
         }
 
         /// <summary>
@@ -44,11 +51,18 @@ namespace Microsoft.Bot.Builder.Core.Tests
         [TestMethod]
         public async Task Middlware_ThrowException()
         {
-            await DoTest(new IMiddleware[] { new CatchExceptionMiddleware() }, async (context) => {
+            var activities = TranscriptUtilities.GetFromTestContext(TestContext);
+
+            TestAdapter adapter = new TestAdapter()
+                .Use(new CatchExceptionMiddleware());
+
+            var flow = new TestFlow(adapter, async (context) => {
                 string toEcho = "ECHO:" + context.Activity.AsMessageActivity().Text;
                 await context.SendActivity(context.Activity.CreateReply(toEcho));
                 throw new Exception("Test Exception");
             });
+
+            await flow.Test(activities).StartTest();
         }
 
         public class CatchExceptionMiddleware : IMiddleware
@@ -70,7 +84,7 @@ namespace Microsoft.Bot.Builder.Core.Tests
 
         }
 
-        public class BeforeAFterMiddlware : IMiddleware
+        public class BeforeAfterMiddleware : IMiddleware
         {
             public async Task OnTurn(ITurnContext context, MiddlewareSet.NextDelegate next)
             {
