@@ -194,7 +194,7 @@
       "name": "Bot",
       "role": "bot"
     },
-    "text": "False\n",
+    "text": "False",
     "timestamp": "2018-05-15T19:25:10.000Z",
     "type": "message",
     "channelId": "chatdown"
