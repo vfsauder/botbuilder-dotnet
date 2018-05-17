@@ -214,6 +214,12 @@ namespace Microsoft.Bot.Builder.Adapters
         }
     }
 
+    /// <summary>
+    /// Called by TestFlow to validate and activity
+    /// </summary>
+    /// <param name="expected">Activity from trnascript file</param>
+    /// <param name="actual">Activity from bot</param>
+    public delegate void ValidateReply(IActivity expected, IActivity actual);
 
     public class TestFlow
     {
@@ -437,7 +443,16 @@ namespace Microsoft.Bot.Builder.Adapters
                 .AssertReply(expected, description, timeout);
         }
 
-        public TestFlow Test(IEnumerable<IActivity> activities, string description = null, UInt32 timeout = 3000)
+        /// <summary>
+        /// Shorcut to test a conversation for .Send(user).AssertReply(bot)
+        /// Each activity with From.Role equals to "bot" will be processed with AssertReply mthod
+        /// Every other activity will be processed as User's message with Send method
+        /// </summary>
+        /// <param name="activities">List of activities to test</param>
+        /// <param name="description"></param>
+        /// <param name="timeout"></param>
+        /// <returns>TestFlow to test</returns>
+        public TestFlow Test(IEnumerable<IActivity> activities, [CallerMemberName] string description = null, UInt32 timeout = 3000)
         {
             if (activities == null)
                 throw new ArgumentNullException(nameof(activities));
@@ -445,6 +460,28 @@ namespace Microsoft.Bot.Builder.Adapters
             bool IsReply(IActivity activity) => string.Equals("bot", activity.From?.Role, StringComparison.InvariantCultureIgnoreCase);
 
             return activities.Aggregate(this, (flow, activity) => IsReply(activity) ? flow.AssertReply(activity, description, timeout) : flow.Send(activity));
+        }
+
+        /// <summary>
+        /// Shorcut to test a conversation for .Send(user).AssertReply(bot)
+        /// Each activity with From.Role equals to "bot" will be processed with AssertReply mthod
+        /// Every other activity will be processed as User's message with Send method
+        /// </summary>
+        /// <param name="activities">List of activities to test</param>
+        /// <param name="validateReply">Custom validation between an expected response and the actual response</param>
+        /// <param name="description"></param>
+        /// <param name="timeout"></param>
+        /// <returns>TestFlow to test</returns>
+        public TestFlow Test(IEnumerable<IActivity> activities, ValidateReply validateReply, [CallerMemberName] string description = null, UInt32 timeout = 3000)
+        {
+            if (activities == null)
+                throw new ArgumentNullException(nameof(activities));
+
+            bool IsReply(IActivity activity) => string.Equals("bot", activity.From?.Role, StringComparison.InvariantCultureIgnoreCase);
+
+            TestFlow AssertReply(TestFlow flow, IActivity expected) => flow.AssertReply((actual) => validateReply(expected, actual));
+
+            return activities.Aggregate(this, (flow, activity) => IsReply(activity) ? AssertReply(flow, activity) : flow.Send(activity));
         }
 
         /// <summary>
