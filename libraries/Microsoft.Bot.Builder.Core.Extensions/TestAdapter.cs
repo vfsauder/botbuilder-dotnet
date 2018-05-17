@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Schema;
 using System.Threading;
 
-namespace Microsoft.Bot.Builder.Adapters
+namespace Microsoft.Bot.Builder.Core.Extensions
 {
     public class TestAdapter : BotAdapter
     {
