@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+	<ProjectReference Include="..\..\samples\MIcrosoft.Bot.Samples.Dialog.Prompts\Microsoft.Bot.Samples.Dialog.Prompts.csproj" />
 	<ProjectReference Include="..\..\samples\Microsoft.Bot.Samples.EchoBot-Console\Microsoft.Bot.Samples.EchoBot-Console.csproj" />
 	<ProjectReference Include="..\Microsoft.Bot.Builder.Core.Extensions.Tests\Microsoft.Bot.Builder.Core.Extensions.Tests.csproj" />
 	<ProjectReference Include="..\..\samples\Microsoft.Bot.Samples.EchoBot-AspNetCore\Microsoft.Bot.Samples.EchoBot-AspNetCore.csproj" />
