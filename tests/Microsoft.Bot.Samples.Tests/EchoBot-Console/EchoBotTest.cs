@@ -8,7 +8,7 @@ using Microsoft.Bot.Builder.Core.Extensions.Tests;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Bot.Samples.Tests.EchoBot_AspNetCore
+namespace Microsoft.Bot.Samples.Tests.EchoBot_Console
 {
     [TestClass]
     [TestCategory("Samples")]
@@ -27,7 +27,7 @@ namespace Microsoft.Bot.Samples.Tests.EchoBot_AspNetCore
             // to match the echobot behavior
             TestAdapter adapter = new TestAdapter(conversationReference);
 
-            var flow = new TestFlow(adapter, new Echo.AspNetCore.EchoBot());
+            var flow = new TestFlow(adapter, new Echo.EchoBot());
             
             await flow.Test(activities, (expected, actual) => {
                 Assert.AreEqual(expected.Type, actual.Type, "Type should match");
