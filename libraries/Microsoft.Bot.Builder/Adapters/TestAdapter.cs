@@ -20,9 +20,11 @@ namespace Microsoft.Bot.Builder.Adapters
         private object _activeQueueLock = new object();
 
         private int _nextId = 0;
+        private readonly bool sendTraceActivity;
 
-        public TestAdapter(ConversationReference conversation = null)
+        public TestAdapter(ConversationReference conversation = null, bool sendTraceActivity = false)
         {
+            this.sendTraceActivity = sendTraceActivity;
             if (conversation != null)
             {
                 Conversation = conversation;
@@ -112,7 +114,7 @@ namespace Microsoft.Bot.Builder.Adapters
                     activity.Timestamp = DateTime.UtcNow;
                 }
 
-
+                
                 if (activity.Type == ActivityTypesEx.Delay)
                 {
                     // The BotFrameworkAdapter and Console adapter implement this
@@ -122,6 +124,16 @@ namespace Microsoft.Bot.Builder.Adapters
                     int delayMs = (int)activity.Value;
 
                     await Task.Delay(delayMs);
+                }
+                else if (activity.Type == ActivityTypes.Trace)
+                {
+                    if (sendTraceActivity)
+                    {
+                        lock (this.botReplies)
+                        {
+                            this.botReplies.Enqueue(activity);
+                        }
+                    }
                 }
                 else
                 {
